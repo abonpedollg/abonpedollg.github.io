@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Abon Ikan Pedo</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,300;0,400;0,700;1,700&display=swap"
+    rel="stylesheet">
+
+  <!-- Feather Icons -->
+  <script src="https://unpkg.com/feather-icons"></script>
+
+  <!-- My Style -->
+  <link rel="stylesheet" href="css/style.css">
+
+  <!-- Alpine JS -->
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
+  <!--App JS -->
+  <script src="app.js"></script>
+</head>
+
+<body>
+
+  <!-- Navbar start -->
+  <nav class="navbar">
+    <a href="#" class="navbar-logo">Abon<span> Ikan</span> Pedo.</a>
+
+    <div class="navbar-nav">
+      <a href="#home">Beranda</a>
+      <a href="#about">Tentang</a>
+      <a href="#menu">Tim</a>
+      <a href="#products">Produk</a>
+      <a href="#contact">Kontak</a>
+    </div>
+
+    <div class="navbar-extra">
+      <a href="#" id="search-button"><i data-feather="search"></i></a>
+      <a href="#" id="shopping-cart-button"><i data-feather="shopping-cart"></i></a>
+      <a href="#" id="hamburger-menu"><i data-feather="menu"></i></a>
+    </div>
+
+    <!-- Search Form start -->
+    <div class="search-form">
+      <input type="search" id="search-box" placeholder="cari disini...">
+      <label for="search-box"><i data-feather="search"></i></label>
+    </div>
+    <!-- Search Form end -->
+
+    <!-- Shopping Cart start -->
+    <div class="shopping-cart">
+      
+    <style>
+        body {
+            font-family: Poppins, sans-serif;
+        }
+        h1 {
+            text-align: center;
+        }
+        .container {
+            width: 100%;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        .form-group input {
+            background-color: #ddd;
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+        }
+        .button {
+            padding: 10px 20px;
+            background-color: #28a745;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+        .button:hover:enabled {
+            background-color: #218838;
+        }
+        .product-list {
+            margin-top: 20px;
+        }
+        .product-item {
+            padding: 10px;
+            border-bottom: 1px solid #ccc;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Tambah Produk</h1>
+    <div class="form-group">
+        <label for="nama">Nama Konsumen:</label>
+        <input type="text" id="nama" oninput="cekInput()" required>
+    </div>
+    <div class="form-group">
+        <label for="harga">Harga Produk:</label>
+        <input type="number" id="harga" oninput="cekInput()" required>
+    </div>
+    <div class="form-group">
+        <label for="stok">Stok Produk:</label>
+        <input type="number" id="stok" oninput="cekInput()" required>
+    </div>
+    <button class="button" id="tambahButton" onclick="tambahProduk()" disabled>Tambah Produk</button>
+
+    <div class="product-list" id="productList"></div>
+</div>
+
+<script>
+    const produkList = [];
+
+    function cekInput() {
+        const nama = document.getElementById('nama').value;
+        const harga = document.getElementById('harga').value;
+        const stok = document.getElementById('stok').value;
+
+        const tambahButton = document.getElementById('tambahButton');
+        
+        if (nama && harga && stok) {
+            tambahButton.disabled = false;
+        } else {
+            tambahButton.disabled = true;
+        }
+    }
+
+    function tambahProduk() {
+        const nama = document.getElementById('nama').value;
+        const harga = document.getElementById('harga').value;
+        const stok = document.getElementById('stok').value;
+
+        if (nama && harga && stok) {
+            const produkBaru = {
+                nama: nama,
+                harga: parseFloat(harga),
+                stok: parseInt(stok)
+            };
+            produkList.push(produkBaru);
+            tampilkanProduk();
+            document.getElementById('nama').value = '';
+            document.getElementById('harga').value = '';
+            document.getElementById('stok').value = '';
+            cekInput();
+        } else {
+            alert("Semua field harus diisi!");
+        }
+    }
+
+    function tampilkanProduk() {
+        const productListElement = document.getElementById('productList');
+        productListElement.innerHTML = '<h2>Daftar Produk</h2>';
+        
+        produkList.forEach((produk, index) => {
+            const productItem = document.createElement('div');
+            productItem.className = 'product-item';
+
+            const waNumber = '6281368748953'; // Ganti dengan nomor WhatsApp tujuan
+            const waMessage = `Saya adalah costumer ingin membeli produk nya disini... ${produk.nama}, Harga: ${produk.harga}, Stok: ${produk.stok}`;
+            const waLink = `https://wa.me/${waNumber}?text=${encodeURIComponent(waMessage)}`;
+
+            productItem.innerHTML = `
+                Abon Ikan Pedo: ${produk.nama}, Harga: ${produk.harga}, Stok: ${produk.stok}
+                <button class="button" onclick="bukaWhatsApp('${waLink}')">Pesan via WhatsApp</button>
+            `;
+            productListElement.appendChild(productItem);
+        });
+    }
+
+    function bukaWhatsApp(link) {
+        window.open(link, '_blank');
+    }
+</script>
+
+    <!-- Shopping Cart end -->
+
+  </nav>
+  <!-- Navbar end -->
+
+  <!-- Hero Section start -->
+  <section class="hero" id="home">
+    
+  </section>
+  <!--Hero Section end -->
+
+  <!-- About Section start -->
+  <section id="about" class="about">
+    <h2><span>Tentang</span> Kami</h2>
+
+    <div class="row">
+      <div class="about-img">
+        <img src="img/about/tentang-kami.jpg" alt="Tentang Kami">
+      </div>
+      <div class="content">
+        <h3>Kenapa memilih kopi kami?</h3>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Pariatur ducimus voluptatum dolor. Et, voluptatum
+          accusantium!</p>
+        <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Hic deserunt iure amet facilis eos a quo cum
+          voluptates molestias nihil.</p>
+      </div>
+    </div>
+  </section>
+  <!-- About Section end -->
+
+  <!-- Menu Section start -->
+  <section id="menu" class="menu">
+    <h2><span>Tim</span> Kami</h2>
+    <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Expedita, repellendus numquam quam tempora voluptatum.
+    </p>
+
+    <div class="row">
+      <div class="menu-card">
+            <img src="img/tim/img.jpg" class="menu-card-img" alt="">
+            <h3 class="menu-card-title">- Muhammad Geri Aji Pratama -</h3>
+            <p class="menu-card-price">Prodi Kewirauhaan</p>
+      </div>
+      <div class="menu-card">
+        <img src="img/tim/img.png" class="menu-card-img" alt="">
+            <h3 class="menu-card-title">- Muhammad Farhan </h3>
+            <h3 class="menu-card-title">Fadhlurrahman-</h3>
+            <p class="menu-card-price">Prodi Kewirauhaan</p>
+      </div>
+      <div class="menu-card">
+        <img src="img/tim/ttg.jpg" class="menu-card-img" alt="">
+            <h3 class="menu-card-title">- Dovi Ondan Wulan Putri -</h3>
+            <p class="menu-card-price">Prodi Kewirauhaan</p>
+      </div>
+      <div class="menu-card">
+        <img src="img/tim/ttg.jpg" class="menu-card-img" alt="">
+            <h3 class="menu-card-title">- Luthfi Cahaya Alam -</h3>
+            <p class="menu-card-price">Prodi Desain Komunikasi Visual</p>
+      </div>
+    </div>
+  </section>
+  <!-- Menu Section end -->
+
+  <!-- Products Section start -->
+  <section class="products" id="products">
+    <h2><span>Produk </span> Kami</h2>
+    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo unde eum, ab fuga possimus iste.</p>
+
+    <div class="row">
+      <div class="product-card">
+        <div class="product-icons">
+          <a href="#"><i data-feather="shopping-cart"></i></a>
+          <a href="#" class="item-detail-button"><i data-feather="eye"></i></a>
+        </div>
+        <div class="product-image">
+          <img src="img/products/1.jpg" alt="Product 1">
+        </div>
+        <div class="product-content">
+          <h3>Abon Ikan Pedo 50 gram </h3>
+          <div class="product-stars">
+            <i data-feather="star" class="star-full"></i>
+            <i data-feather="star" class="star-full"></i>
+            <i data-feather="star" class="star-full"></i>
+            <i data-feather="star" class="star-full"></i>
+            <i data-feather="star"></i>
+          </div>
+          <div class="product-price">Rp. 15.000 <span></span></div>
+        </div>
+      </div>
+      <div class="product-card">
+        <div class="product-icons">
+          <a href="#"><i data-feather="shopping-cart"></i></a>
+          <a href="#" class="item-detail-button"><i data-feather="eye"></i></a>
+        </div>
+        <div class="product-image">
+          <img src="img/products/1.jpg" alt="Product 1">
+        </div>
+        <div class="product-content">
+          <h3>Abon Ikan Pedo 100 gram</h3>
+          <div class="product-stars">
+            <i data-feather="star" class="star-full"></i>
+            <i data-feather="star" class="star-full"></i>
+            <i data-feather="star" class="star-full"></i>
+            <i data-feather="star" class="star-full"></i>
+            <i data-feather="star"></i>
+          </div>
+          <div class="product-price">Rp. 30.000 <span></span></div>
+        </div>
+      </div>
+      <div class="product-card">
+        <div class="product-icons">
+          <a href="#"><i data-feather="shopping-cart"></i></a>
+          <a href="#" class="item-detail-button"><i data-feather="eye"></i></a>
+        </div>
+        <div class="product-image">
+          <img src="img/products/1.jpg" alt="Product 1">
+        </div>
+        <div class="product-content">
+          <h3>Abon Ikan Pedo 200 gram</h3>
+          <div class="product-stars">
+            <i data-feather="star" class="star-full"></i>
+            <i data-feather="star" class="star-full"></i>
+            <i data-feather="star" class="star-full"></i>
+            <i data-feather="star" class="star-full"></i>
+            <i data-feather="star"></i>
+          </div>
+          <div class="product-price">Rp. 70.000 <span></span></div>
+        </div>
+      </div>
+      <div class="product-card">
+        <div class="product-icons">
+          <a href="#"><i data-feather="shopping-cart"></i></a>
+          <a href="#" class="item-detail-button"><i data-feather="eye"></i></a>
+        </div>
+        <div class="product-image">
+          <img src="img/products/1.jpg" alt="Product 1">
+        </div>
+        <div class="product-content">
+          <h3>Abon Ikan Pedo 250 gram</h3>
+          <div class="product-stars">
+            <i data-feather="star" class="star-full"></i>
+            <i data-feather="star" class="star-full"></i>
+            <i data-feather="star" class="star-full"></i>
+            <i data-feather="star" class="star-full"></i>
+            <i data-feather="star"></i>
+          </div>
+          <div class="product-price">Rp. 85.000<span></span>
+          </div>
+
+  </section>
+  <!-- Products Section end -->
+
+  <!-- Contact Section start -->
+  <section id="contact" class="contact">
+    <h2><span>Kontak</span> Kami</h2>
+    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis, provident.
+    </p>
+
+    <div class="row">
+      <iframe
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d63730.996971689594!2d102.7964815978749!3d-3.3037795939256798!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e30e0488a3119d1%3A0x1ef773457c9af524!2sLubuk%20Linggau%20Barat%20I%2C%20Lubuklinggau%20City%2C%20South%20Sumatra%2C%20Indonesia!5e0!3m2!1sen!2sin!4v1658392614886!5m2!1sen!2sin" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+        allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" class="map"></iframe>
+
+      <form action="">
+        <div class="input-group">
+          <i data-feather="user"></i>
+          <input type="text" placeholder="nama">
+        </div>
+        <div class="input-group">
+          <i data-feather="mail"></i>
+          <input type="text" placeholder="email">
+        </div>
+        <div class="input-group">
+          <i data-feather="phone"></i>
+          <input type="text" placeholder="no hp">
+        </div>
+        <button type="submit" class="btn">kirim pesan</button>
+      </form>
+
+    </div>
+  </section>
+  <!-- Contact Section end -->
+
+  <!-- Footer start -->
+  <footer>
+    <div class="socials">
+      <a href="#"><i data-feather="instagram"></i></a>
+      <a href="#"><i data-feather="facebook"></i></a>
+      <a href="#"><i data-feather="youtube"></i></a>
+    </div>
+
+    <div class="links">
+      <a href="#home">Beranda</a>
+      <a href="#about">Tentang</a>
+      <a href="#menu">Tim</a>
+      <a href="#products">Produk</a>
+      <a href="#contact">Kontak</a>
+    </div>
+
+    <div class="credit">
+      <p>Copyright by <a href="">Abon Ikan Pedo Lubuklinggau</a>. | &copy; 2024.</p>
+    </div>
+  </footer>
+  <!-- Footer end -->
+
+  <!-- Modal Box Item Detail start -->
+  <div class="modal" id="item-detail-modal">
+    <div class="modal-container">
+      <a href="#" class="close-icon"><i data-feather="x"></i></a>
+      <div class="modal-content">
+        <img src="img/products/1.jpg" alt="Product 1">
+        <div class="product-content">
+          <h3>Product 1</h3>
+          <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Provident, tenetur cupiditate facilis obcaecati
+            ullam maiores minima quos perspiciatis similique itaque, esse rerum eius repellendus voluptatibus!</p>
+          <div class="product-stars">
+            <i data-feather="star" class="star-full"></i>
+            <i data-feather="star" class="star-full"></i>
+            <i data-feather="star" class="star-full"></i>
+            <i data-feather="star" class="star-full"></i>
+            <i data-feather="star"></i>
+          </div>
+          <div class="product-price">Rp.15.000<span></span></div>
+          <a href="#"><i data-feather="shopping-cart"></i> <span>Beli</span></a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Modal Box Item Detail end -->
+
+  <!-- Feather Icons -->
+  <script>
+    feather.replace()
+  </script>
+
+  <!-- My Javascript -->
+  <script src="js/script.js"></script>
+</body>
+
+</html>
